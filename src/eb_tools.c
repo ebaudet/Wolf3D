@@ -1,49 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   eb_tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebaudet <ebaudet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/01/13 18:37:52 by ebaudet           #+#    #+#             */
-/*   Updated: 2014/01/13 18:37:52 by ebaudet          ###   ########.fr       */
+/*   Created: 2014/01/15 06:48:50 by ebaudet           #+#    #+#             */
+/*   Updated: 2014/01/15 06:51:01 by ebaudet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void        ft_print_map(int ***map)
+void	eb_swap(int *a, int *b)
 {
-	int		i;
-	int		j;
+	int		tmp;
 
-	i = 0;
-	j = 0;
-	while (map[i])
-	{
-		while (map[i][j])
-		{
-			ft_putnbr(*map[i][j]);
-			ft_putchar(' ');
-			j++;
-		}
-		j = 0;
-		ft_putchar('\n');
-		i++;
-	}
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
-int		main(int ac, char *av[])
+void	eb_swap_pos(t_pos *a, t_pos *b)
 {
-	t_map	*map;
-	t_data	d;
+	t_pos	tmp;
 
-	map = NULL;
-	if (ac != 2)
-		eb_perror("usage : ./wolf3d map");
-	map = eb_getdata(++av);
-	ft_print_map(map->map);
-	d.map = map;
-	eb_mlx(&d);
-	return (0);
+	tmp.x = a->x;
+	tmp.y = a->y;
+	a->x = b->x;
+	a->y = b->y;
+	b->x = tmp.x;
+	b->y = tmp.y;
+}
+
+int		eb_abs(int x)
+{
+	if (x < 0)
+		return (-x);
+	return (x);
 }

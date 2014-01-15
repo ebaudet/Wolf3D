@@ -15,14 +15,14 @@
 #include <stdlib.h>
 #include "wolf3d.h"
 
-t_map	*eb_getdata(int ac, char *av[])
+t_map	*eb_getdata(char *av[])
 {
 	int		fd;
 	char	*line;
 	int		i;
-	int		j;
 	t_map	*map;
 
+	map = NULL;
 	if ((fd = open(*av, O_RDONLY)) < 0)
 		eb_perror("Mauvaise ouverture du fichier");
 	if (get_next_line(fd, &line) > 0)
@@ -48,7 +48,9 @@ t_map	*eb_init_t_map(t_map *map, char *str)
 	map->wall = ft_atoi(tab[3]);
 	map->floor = ft_atoi(tab[4]);
 	map->start = ft_atoi(tab[5]);
+	map->pos = (t_pos *)malloc(sizeof(t_pos));
 	map->map = (int ***)malloc(sizeof(int **) * (map->y + 1));
+	map->alpha = 0;
 	i = -1;
 	while (++i <= map->y)
 		map->map[i] = (int **)malloc(sizeof(int *) * (map->x + 1));
@@ -67,6 +69,8 @@ void	eb_map_init(t_map *map, char *str, int line)
 	{
 		map->map[line][i] = (int *)malloc(sizeof(int));
 		*(map->map[line][i]) = ft_atoi(tab[i]);
+		if (*(map->map[line][i]) == map->start)
+			eb_init_pos(i * RA + RA / 2, line * RA + RA / 2, map->pos);
 	}
 	map->map[line][map->x] = (int *)malloc(sizeof(int));
 	map->map[line][map->x] = NULL;

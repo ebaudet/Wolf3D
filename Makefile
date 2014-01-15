@@ -24,49 +24,83 @@ DIR_SRC	= src
 DIR_OBJ	= .obj
 # Files
 NAME	= wolf3d
-F_SRC	+= main.c
-F_SRC	+= eb_getdata.c
-F_SRC	+= eb_error.c
+F_SRC	+= main.c eb_getdata.c eb_error.c eb_mlx.c eb_tools.c eb_draw.c \
+			eb_trace.c eb_init_struct.c eb_move.c
+# F_SRC	+= eb_getdata.c
+# F_SRC	+= eb_error.c
+# F_SRC	+= eb_mlx.c
 SRC		= $(addprefix $(DIR_SRC)/, $(F_SRC))
-OBJ		= $(addprefix $(DIR_OBJ)/, $(subst .c,.o,$(SRC)))
-F_INC	+= ft_select.h
+OBJ		= $(addprefix $(DIR_OBJ)/, $(notdir $(subst .c,.o,$(SRC))))
+F_INC	+= wolf3d.h
 INC		= $(addprefix $(DIR_INC)/, $(F_INC))
+# Color
+NO_COL	= @printf "\033[0m"
+BLUE	= @printf "\033[34m"
+YELLOW	= @printf "\033[33m"
+#GREEN	= @printf "\033[32m"
+PURPLE	= @printf "\033[34m\033[40m"
 
 # Classic Rules:
-all: $(DIR_OBJ) $(NAME)
+all: gdb
+#all: $(DIR_OBJ) $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "\033[31mCompilation de la libft...\033[0m"
-	@make -C libft
-	@$(CC) -o $@ $^ $(CFLAGS) $(LIB_FT) $(LIB_MLX)
-	@echo "\033[33m$(CC) -o \033[4m$@\033[0m\033[33m $^ $(CFLAGS) $(LIB_FT) \
-	$(LIB_MLX)\033[0m"
+	$(PURPLE)
+	@echo "Compilation de la libft..."
+	make -C libft
+	$(NO_COL)
+	$(YELLOW)
+	$(CC) -o $@ -O3 $^ $(CFLAGS) $(LIB_FT) $(LIB_MLX)
+	$(NO_COL)
 
-$(addprefix $(DIR_OBJ)/, %.o): %.c $(INC)
-	@$(CC) -o $@ -c $< $(CFLAGS) $(LDFLAGS)
-	@echo "\033[34m$(CC) -o \033[4m$@\033[0m\033[34m -c $< $(CFLAGS) \
-	$(LDFLAGS)\033[0m"
+$(OBJ): $(SRC) $(INC)
+	$(BLUE)
+	$(CC) -o $@ -c $< $(CFLAGS) $(LDFLAGS)
+	$(NO_COL)
+#	@echo "\033[34m$(CC) -o \033[4m$@\033[0m\033[34m -c $< $(CFLAGS) \
+#	$(LDFLAGS)\033[0m"
 
 $(DIR_OBJ):
-	@echo "create  folder $(DIR_OBJ)/$(DIR_SRC)"
-	@/bin/mkdir $(DIR_OBJ)
-	@/bin/mkdir $(DIR_OBJ)/$(DIR_SRC)
+	$(GREEN)
+	/bin/mkdir $(DIR_OBJ)
+	$(NO_COL)
 
 clean:
-	@$(RM) -f $(OBJ)
+	$(RM) -f $(OBJ)
 	@echo "\033[31m$(RM) -f \033[0m\033[41m$(OBJ)\033[0m"
-	@$(RM) -rf $(DIR_OBJ)
+	$(RM) -rf $(DIR_OBJ)
 	@echo "\033[31m$(RM) -rf \033[0m\033[41m$(DIR_OBJ)\033[0m"
 
 fclean: clean
-	@$(RM) -f $(NAME)
+	$(RM) -f $(NAME)
 	@echo "\033[31m$(RM) -f \033[0m\033[41m$(NAME)\033[0m"
+
+color:
+	@echo "\033[0mcolor code : 0!\033[0m"
+	@echo "\033[1mcolor code : 1!\033[0m"
+	@echo "\033[4mcolor code : 4!\033[0m"
+	@echo "\033[7mcolor code : 7!\033[0m"
+	@echo "\033[30mcolor code : 30!\033[0m"
+	@echo "\033[31mcolor code : 31!\033[0m"
+	@echo "\033[32mcolor code : 32!\033[0m"
+	@echo "\033[33mcolor code : 33!\033[0m"
+	@echo "\033[34mcolor code : 34!\033[0m"
+	@echo "\033[35mcolor code : 35!\033[0m"
+	@echo "\033[36mcolor code : 36!\033[0m"
+	@echo "\033[40mcolor code : 40!\033[0m"
+	@echo "\033[41mcolor code : 41!\033[0m"
+	@echo "\033[42mcolor code : 42!\033[0m"
+	@echo "\033[43mcolor code : 43!\033[0m"
+	@echo "\033[44mcolor code : 44!\033[0m"
+	@echo "\033[45mcolor code : 45!\033[0m"
+	@echo "\033[46mcolor code : 46!\033[0m"
+	@echo "\033[47mcolor code : 47!\033[0m"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re gdb
 
 # Additional Rules:
 gdb:
-	cc -g $(FLAGS) $(SRC) -o $(NAME) $(LDFLAGS) $(LIB_FT) $(LIB_MLX)
-	gdb $(NAME)
+	cc -g $(SRC) -o $(NAME) $(LDFLAGS) $(LIB_FT) $(LIB_MLX) $(CFLAGS)
+#	gdb $(NAME)
