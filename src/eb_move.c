@@ -13,36 +13,43 @@
 #include <math.h>
 #include "wolf3d.h"
 
-void	eb_search_wall(t_pos pos, double alpha)
+t_pos	*eb_search_wall(t_data *d, t_pos *pos, double alpha)
 {
-	while (eb_collision(d, &pos))
-	alpha = d->map->alpha;
-	pos.x = (pos.x * cos(alpha) - d->map->pos->y * sin(alpha)) / RA;
-	pos.y = (d->map->pos->x * sin(alpha) + pos.y * cos(alpha)) / RA;
-	pos.x += d->map->pos->x;
-	pos.y += d->map->pos->y;
-	if (eb_collision(d, &pos) == 1)
+	t_pos	tmp;
+	
+	tmp.x = pos->x;
+	tmp.y = pos->y;
+	while (eb_collision(d, &tmp))
 	{
-		d->map->pos->x = pos.x;
-		d->map->pos->y = pos.y;
+		pos->x = tmp.x;
+		pos->y = tmp.x;
+		alpha = d->map->alpha;
+		tmp.x = (int)(pos->x * cos(alpha) - pos->y * sin(alpha)) / RA;
+		tmp.y = (int)(pos->x * sin(alpha) + pos->y * cos(alpha)) / RA;
+		tmp.x += pos->x;
+		tmp.y += pos->y;
 	}
+	return (pos);
 }
 
 void	eb_vision(t_data *d)
 {
-	t_pos	pos;
+	t_pos	*pos;
 	double	alpha;
 	int		i;
 
-	pos.x = d->map->pos->x;
-	pos.y = d->map->pos->y;
+	pos = NULL;
+	eb_init_pos(d->map->pos->x, d->map->pos->y, pos);
 	alpha = d->map->alpha;
 	alpha = alpha - (0.017453 * 40);
 	i = -1;
 	while (++i < 80)
 	{
-		eb_search_wall(pos, alpha);
-		alpha += 0.017453
+		pos = eb_search_wall(d, pos, alpha);
+		eb_trace_line(d, *pos, *(d->map->pos), 0xFFFFFF);
+		pos->x = d->map->pos->x;
+		pos->y = d->map->pos->y;
+		alpha += 0.017453;
 	}
 }
 
@@ -56,13 +63,13 @@ int		eb_collision(t_data *d, t_pos *pos)
 void	eb_move_on(t_data *d)
 {
 	t_pos	pos;
-	int		alpha;
+	double	alpha;
 
 	pos.x = d->map->pos->x;
 	pos.y = d->map->pos->y;
 	alpha = d->map->alpha;
-	pos.x = (pos.x * cos(alpha) - d->map->pos->y * sin(alpha)) / RA;
-	pos.y = (d->map->pos->x * sin(alpha) + pos.y * cos(alpha)) / RA;
+	pos.x = (int)(pos.x * cos(alpha) - d->map->pos->y * sin(alpha)) / RA;
+	pos.y = (int)(d->map->pos->x * sin(alpha) + pos.y * cos(alpha)) / RA;
 	pos.x += d->map->pos->x;
 	pos.y += d->map->pos->y;
 	if (eb_collision(d, &pos) == 1)
@@ -76,13 +83,13 @@ void	eb_move_on(t_data *d)
 void	eb_move_back(t_data *d)
 {
 	t_pos	pos;
-	int		alpha;
+	double	alpha;
 
 	pos.x = d->map->pos->x;
 	pos.y = d->map->pos->y;
 	alpha = d->map->alpha;
-	pos.x = (pos.x * cos(alpha) - d->map->pos->y * sin(alpha)) / RA;
-	pos.y = (d->map->pos->x * sin(alpha) + pos.y * cos(alpha)) / RA;
+	pos.x = (int)(pos.x * cos(alpha) - d->map->pos->y * sin(alpha)) / RA;
+	pos.y = (int)(d->map->pos->x * sin(alpha) + pos.y * cos(alpha)) / RA;
 	pos.x = d->map->pos->x - pos.x;
 	pos.y = d->map->pos->y - pos.y;
 	if (eb_collision(d, &pos) == 1)
