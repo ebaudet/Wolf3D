@@ -38,7 +38,7 @@ void	eb_draw(t_data *d)
 	eb_put_pixel_to_img(d, d->map->pos->x + 1, d->map->pos->y, 0xBD33A4);
 	eb_put_pixel_to_img(d, d->map->pos->x, d->map->pos->y + 1, 0xBD33A4);
 	eb_put_pixel_to_img(d, d->map->pos->x + 1, d->map->pos->y + 1, 0xBD33A4);
-
+	eb_vision(d);
 
 	/*int		x;
 	int		y;*/

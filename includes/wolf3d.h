@@ -115,4 +115,10 @@ void	eb_move_back(t_data *d);
 void	eb_turn_right(t_data *d);
 void	eb_turn_left(t_data *d);
 
+/*
+** eb_raytracing.c
+*/
+int		eb_search_wall(t_data *d, t_pos *pos, double alpha);
+void	eb_vision(t_data *d);
+
 #endif /* WOLF3D_H */

@@ -25,7 +25,7 @@ DIR_OBJ	= .obj
 # Files
 NAME	= wolf3d
 F_SRC	+= main.c eb_getdata.c eb_error.c eb_mlx.c eb_tools.c eb_draw.c \
-			eb_trace.c eb_init_struct.c eb_move.c
+			eb_trace.c eb_init_struct.c eb_move.c eb_raytracing.c
 # F_SRC	+= eb_getdata.c
 # F_SRC	+= eb_error.c
 # F_SRC	+= eb_mlx.c

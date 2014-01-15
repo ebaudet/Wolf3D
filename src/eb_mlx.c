@@ -39,13 +39,17 @@ int		eb_mouse_hook(int button, int x, int y, t_data *d)
 	(void)d;
 	if (button == 1)
 	{
-		if (*d->map->map[y / RA][x / RA] == d->map->wall
-			&& (x / RA) != 0 && (x / RA) != (d->map->x - 1) && (y / RA) != 0
-			&& (y / RA) != (d->map->y - 1))
+		if ((*d->map->map[y / RA][x / RA] == d->map->wall)
+			&& ((x / RA) != 0) && ((x / RA) != (d->map->x - 1))
+			&& ((y / RA) != 0) && ((y / RA) != (d->map->y - 1)))
+		{
 			*d->map->map[y / RA][x / RA] = d->map->floor;
+		}			
 		else if (*d->map->map[y / RA][x / RA]
 			!= *d->map->map[d->map->pos->y / RA][d->map->pos->x / RA])
+		{
 			*d->map->map[y / RA][x / RA] = d->map->wall;
+		}
 	}
 	eb_expose_hook(d);
 	ft_putstr("button : ");
