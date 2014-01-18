@@ -51,6 +51,7 @@ t_map	*eb_init_t_map(t_map *map, char *str)
 	map->pos = (t_pos *)malloc(sizeof(t_pos));
 	map->map = (int ***)malloc(sizeof(int **) * (map->y + 1));
 	map->alpha = 0;
+	map->axis_y = HEIGHT / 2;
 	i = -1;
 	while (++i <= map->y)
 		map->map[i] = (int **)malloc(sizeof(int *) * (map->x + 1));

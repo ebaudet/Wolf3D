@@ -10,35 +10,40 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "wolf3d.h"
 
-void	trace_map(t_data *d)
+void	eb_clean_map(t_data *d)
 {
-	int		i;
-	int		j;
+	int		x;
+	int		y;
 
-	i = 0;
-	j = 0;
-	while (d->map->map[i])
+	x = 0;
+	while (x <= WIDTH / 5)
 	{
-		while (d->map->map[i][j])
+		y = 0;
+		while (y <= HEIGHT / 5)
 		{
-			eb_trace_block(d, j, i);
-			j++;
+			eb_put_pixel_to_img(d, x, y, 0x000000);
+			y++;
 		}
-		j = 0;
-		i++;
+		x++;
 	}
 }
 
 void	eb_draw(t_data *d)
 {
-	trace_map(d);
-	eb_put_pixel_to_img(d, d->map->pos->x, d->map->pos->y, 0xBD33A4);
+	
+	/*eb_put_pixel_to_img(d, d->map->pos->x, d->map->pos->y, 0xBD33A4);
 	eb_put_pixel_to_img(d, d->map->pos->x + 1, d->map->pos->y, 0xBD33A4);
 	eb_put_pixel_to_img(d, d->map->pos->x, d->map->pos->y + 1, 0xBD33A4);
-	eb_put_pixel_to_img(d, d->map->pos->x + 1, d->map->pos->y + 1, 0xBD33A4);
+	eb_put_pixel_to_img(d, d->map->pos->x + 1, d->map->pos->y + 1, 0xBD33A4);*/
+	/*eb_clean_map(d);*/
 	eb_vision(d);
+
+	/*printf("(%d, %d)\n", d->map->pos->x, d->map->pos->y);*/
+	eb_put_pixel_to_img(d, (d->map->pos->x  * RM) / RA, (d->map->pos->y * RM) / RA, 0x000000);
+	eb_trace_map(d);
 
 	/*int		x;
 	int		y;*/
@@ -89,12 +94,17 @@ void	eb_clear_draw(t_data *d)
 	int		y;
 
 	x = 0;
-	while (x <= d->map->x * RA)
+	while (x <= WIDTH)
 	{
 		y = 0;
-		while (y <= d->map->y * RA)
+		while (y <= (HEIGHT / 2))
 		{
-			eb_put_pixel_to_img(d, x, y, 0x000000);
+			eb_put_pixel_to_img(d, x, y, 0xBBBBBB);
+			y++;
+		}
+		while (y <= HEIGHT)
+		{
+			eb_put_pixel_to_img(d, x, y, 0x444444);
 			y++;
 		}
 		x++;

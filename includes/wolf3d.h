@@ -15,11 +15,18 @@
 
 # include "../libft/includes/libft.h"
 
+typedef struct		s_colision
+{
+	int				face;
+	double			dist;
+}					t_colision;
+
 typedef struct		s_pos
 {
 	int				x;
 	int				y;
 }					t_pos;
+
 typedef struct		s_map
 {
 	int				x;
@@ -29,6 +36,7 @@ typedef struct		s_map
 	int				floor;
 	int				start;
 	double			alpha;
+	int				axis_y;
 	int				***map;
 	t_pos			*pos;
 }					t_map;
@@ -46,6 +54,7 @@ typedef struct		s_data
 	int				y;
 	int				width;
 	int				height;
+	int				save[4];
 	t_map			*map;
 }					t_data;
 
@@ -55,9 +64,21 @@ typedef struct		s_line
 	t_pos			*b;
 }					t_line;
 
-# define HEIGHT	800
-# define WIDTH	800
+# define KEY_ESC	65307
+# define KEY_UP		65362
+# define KEY_DOWN	65364
+# define KEY_LEFT	65361
+# define KEY_RIGHT	65363
+
+
+# define HEIGHT	1000
+# define WIDTH	2000
 # define RA		100
+# define VISION 60
+# define DEG_TO_RAD 0.0174532925
+# define MAXLEN	(d->map->x * d->map->y * RA)
+# define RM		((HEIGHT / d->map->y) / 5)
+# define RP		(RM / RA)
 
 /*
 ** eb_error.c
@@ -85,12 +106,14 @@ void	eb_mlx(t_data *d);
 */
 void	eb_draw(t_data *d);
 void	eb_clear_draw(t_data *d);
+void	eb_clean_map(t_data *d);
 
 /*
 ** eb_trace.c
 */
 void	eb_trace_line(t_data *d, t_pos a, t_pos b, int color);
 void	eb_trace_block(t_data *d, int x, int y);
+void	eb_trace_map(t_data *d);
 
 /*
 ** eb_init_struct.c
@@ -118,7 +141,16 @@ void	eb_turn_left(t_data *d);
 /*
 ** eb_raytracing.c
 */
-int		eb_search_wall(t_data *d, t_pos *pos, double alpha);
+/*int		eb_search_wall(t_data *d, t_pos *pos, double alpha);
 void	eb_vision(t_data *d);
+void	eb_print_wolf(t_data *d, double dist, double dist_screen, int i);*/
 
+void	eb_search_wall(t_data *d, t_pos *pos, double alpha, t_colision *col);
+void	eb_vision(t_data *d);
+void	eb_print_wolf(t_data *d, t_colision *col, double dist_screen, int i);
+/*
+void	eb_search_wall(t_data *d, t_pos *pos, double alpha, t_colision *col);
+void	eb_vision(t_data *d);
+void	eb_print_wolf(t_data *d, t_colision *col, double dist_screen, int i);
+*/
 #endif /* WOLF3D_H */

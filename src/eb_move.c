@@ -10,14 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <math.h>
 #include "wolf3d.h"
 
 int		eb_collision(t_data *d, t_pos *pos)
 {
 	if (*d->map->map[pos->y / RA][pos->x / RA] == d->map->wall)
-		return (0);
-	return (1);
+	{
+		/*printf("pos(%d, %d)\n", pos->x, pos->y);*/
+		if (pos->x == ((pos->x / RA) * RA))
+			return (1);
+		else if (pos->x == (((pos->x / RA) + 1) * RA - 1))
+			return (2);
+		else if (pos->y == ((pos->y / RA) * RA))
+			return (3);
+		else if (pos->y == (((pos->y / RA) + 1) * RA - 1))
+			return (4);
+		else
+			return (5);
+
+	}
+	return (0);
 }
 
 void	eb_move_on(t_data *d)
@@ -28,9 +42,9 @@ void	eb_move_on(t_data *d)
 	pos.x = d->map->pos->x;
 	pos.y = d->map->pos->y;
 	alpha = d->map->alpha;
-	pos.x = d->map->pos->x + (int)(cos(alpha) * 10);
-	pos.y = d->map->pos->y + (int)(sin(alpha) * 10);
-	if (eb_collision(d, &pos) == 1)
+	pos.x = d->map->pos->x + (int)(cos(alpha) * 25);
+	pos.y = d->map->pos->y + (int)(sin(alpha) * 25);
+	if (eb_collision(d, &pos) == 0)
 	{
 		d->map->pos->x = pos.x;
 		d->map->pos->y = pos.y;
@@ -45,9 +59,9 @@ void	eb_move_back(t_data *d)
 	pos.x = d->map->pos->x;
 	pos.y = d->map->pos->y;
 	alpha = d->map->alpha;
-	pos.x = d->map->pos->x - (int)(cos(alpha) * 10);
-	pos.y = d->map->pos->y - (int)(sin(alpha) * 10);
-	if (eb_collision(d, &pos) == 1)
+	pos.x = d->map->pos->x - (int)(cos(alpha) * 25);
+	pos.y = d->map->pos->y - (int)(sin(alpha) * 25);
+	if (eb_collision(d, &pos) == 0)
 	{
 		d->map->pos->x = pos.x;
 		d->map->pos->y = pos.y;
@@ -56,10 +70,10 @@ void	eb_move_back(t_data *d)
 
 void	eb_turn_right(t_data *d)
 {
-	d->map->alpha += 0.25;
+	d->map->alpha += 5 * DEG_TO_RAD;
 }
 
 void	eb_turn_left(t_data *d)
 {
-	d->map->alpha -= 0.25;
+	d->map->alpha -= 5 * DEG_TO_RAD;
 }

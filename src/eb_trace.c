@@ -54,14 +54,32 @@ void	eb_trace_block(t_data *d, int x, int y)
 
 	if (*(d->map->map[y][x]) == d->map->wall)
 	{
-		l1 = eb_init_line(x * RA, y * RA, (x + 1) * RA, y * RA);
-		l2 = eb_init_line((x + 1) * RA, y * RA, (x + 1) * RA, (y + 1) * RA);
-		l3 = eb_init_line(x * RA, y * RA, x * RA, (y + 1) * RA);
-		l4 = eb_init_line(x * RA, (y + 1) * RA, (x + 1) * RA, (y + 1) * RA);
+		l1 = eb_init_line(x * RM, y * RM, (x + 1) * RM, y * RM);
+		l2 = eb_init_line((x + 1) * RM, y * RM, (x + 1) * RM, (y + 1) * RM);
+		l3 = eb_init_line(x * RM, y * RM, x * RM, (y + 1) * RM);
+		l4 = eb_init_line(x * RM, (y + 1) * RM, (x + 1) * RM, (y + 1) * RM);
 		eb_trace_line(d, *l1->a, *l1->b, 0x0000ff);
 		eb_trace_line(d, *l2->a, *l2->b, 0xff0000);
 		eb_trace_line(d, *l3->a, *l3->b, 0x00ff00);
 		eb_trace_line(d, *l4->a, *l4->b, 0xE8D630);
 	}
+}
 
+void	eb_trace_map(t_data *d)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (d->map->map[i])
+	{
+		while (d->map->map[i][j])
+		{
+			eb_trace_block(d, j, i);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
 }
