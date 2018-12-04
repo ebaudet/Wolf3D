@@ -44,7 +44,7 @@ int		eb_mouse_hook(int button, int x, int y, t_data *d)
 			&& ((y / RA) != 0) && ((y / RA) != (d->map->y - 1)))
 		{
 			*d->map->map[y / RA][x / RA] = d->map->floor;
-		}			
+		}
 		else if (*d->map->map[y / RA][x / RA]
 			!= *d->map->map[d->map->pos->y / RA][d->map->pos->x / RA])
 		{
@@ -64,29 +64,35 @@ int		eb_mouse_hook(int button, int x, int y, t_data *d)
 
 int		eb_key_press(int keycode, t_data *d)
 {
-	if (keycode == KEY_ESC)
+	if (keycode == KEY_ESC || keycode == 113)
 		exit(0);
-	if (keycode == KEY_UP)
+	if (keycode == KEY_UP || keycode == 119)
 		d->save[0] = 1;
-	if (keycode == KEY_DOWN)
+	if (keycode == KEY_DOWN || keycode == 115)
 		d->save[1] = 1;
-	if (keycode == KEY_LEFT)
+	if (keycode == KEY_LEFT || keycode == 97)
 		d->save[2] = 1;
-	if (keycode == KEY_RIGHT)
+	if (keycode == KEY_RIGHT || keycode == 100)
 		d->save[3] = 1;
+	if (keycode == 104)
+		d->save[4] = (d->save[4] == 0 ? 1 : 0);
+	if (keycode == KEY_RUN)
+		d->save[5] = 1;
 	return (0);
 }
 
 int		eb_key_release(int keycode, t_data *d)
 {
-	if (keycode == KEY_UP)
+	if (keycode == KEY_UP || keycode == 119)
 		d->save[0] = 0;
-	if (keycode == KEY_DOWN)
+	if (keycode == KEY_DOWN || keycode == 115)
 		d->save[1] = 0;
-	if (keycode == KEY_LEFT)
+	if (keycode == KEY_LEFT || keycode == 97)
 		d->save[2] = 0;
-	if (keycode == KEY_RIGHT)
+	if (keycode == KEY_RIGHT || keycode == 100)
 		d->save[3] = 0;
+	if (keycode == KEY_RUN)
+		d->save[5] = 0;
 	return (0);
 }
 
@@ -167,7 +173,7 @@ void	eb_mlx(t_data *d)
 	d->win = mlx_new_window(d->mlx, WIDTH, HEIGHT, "Wolf3D");
 	d->img = mlx_new_image(d->mlx, WIDTH, HEIGHT);
 	d->data = mlx_get_data_addr(d->img, &d->bpp, &d->size_line, &d->endian);
-	
+
 	/*mlx_hook(d->win, 2, (1L << 0), eb_key_hook, d);*/
 	mlx_mouse_hook(d->win, eb_mouse_hook, d);
 	mlx_expose_hook(d->win, eb_expose_hook, d);

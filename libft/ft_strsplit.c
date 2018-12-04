@@ -38,20 +38,18 @@ static char		**create_string(char **strnew, char const *s, char c)
 		if (s[i])
 			i++;
 	}
-	strnew[j] = '\0';
+	strnew[j] = NULL;
 	return (strnew);
 }
 
 char			**ft_strsplit(char const *s, char c)
 {
 	int			i;
-	int			found;
 	int			nbstr;
 	char		**strnew;
 
 	i = 0;
 	nbstr = 0;
-	found = 0;
 	if (!s)
 		return (NULL);
 	if (s[0] != c && s[0])
@@ -62,11 +60,10 @@ char			**ft_strsplit(char const *s, char c)
 		{
 			if ((s[i + 1] != c) && s[i + 1])
 				nbstr++;
-			found = 1;
 		}
 		i++;
 	}
-	if (!(strnew = (char **)malloc(sizeof(char *) * (nbstr + 1))))
+	if (!(strnew = (char **)ft_memalloc(sizeof(char *) * (nbstr + 1))))
 		return (NULL);
 	return (create_string(strnew, s, c));
 }

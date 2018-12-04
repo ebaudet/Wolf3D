@@ -35,10 +35,12 @@ typedef struct		s_map
 	int				wall;
 	int				floor;
 	int				start;
+	int				end;
 	double			alpha;
 	int				axis_y;
 	int				***map;
 	t_pos			*pos;
+	struct s_map	*next;
 }					t_map;
 
 typedef struct		s_data
@@ -54,7 +56,9 @@ typedef struct		s_data
 	int				y;
 	int				width;
 	int				height;
-	int				save[4];
+	int				save[6];
+	int				inter_colision;
+	double			dist_screen;
 	t_map			*map;
 }					t_data;
 
@@ -69,16 +73,18 @@ typedef struct		s_line
 # define KEY_DOWN	65364
 # define KEY_LEFT	65361
 # define KEY_RIGHT	65363
+# define KEY_RUN	65505
 
 
-# define HEIGHT	1000
-# define WIDTH	2000
+# define HEIGHT	850
+# define WIDTH	1500
 # define RA		100
 # define VISION 60
 # define DEG_TO_RAD 0.0174532925
 # define MAXLEN	(d->map->x * d->map->y * RA)
 # define RM		((HEIGHT / d->map->y) / 5)
 # define RP		(RM / RA)
+# define RUN	3
 
 /*
 ** eb_error.c
@@ -91,6 +97,7 @@ int		eb_perror(char *str);
 t_map	*eb_getdata(char *av[]);
 t_map	*eb_init_t_map(t_map *map, char *str);
 void	eb_map_init(t_map *map, char *str, int line);
+t_map	*eb_map_add_to_queue(t_map *map, t_map *new_map);
 
 /*
 ** eb_mlx.c
@@ -141,16 +148,16 @@ void	eb_turn_left(t_data *d);
 /*
 ** eb_raytracing.c
 */
-/*int		eb_search_wall(t_data *d, t_pos *pos, double alpha);
+void	eb_search_wall(t_data *d, t_pos *pos, double alpha, t_colision *col);
 void	eb_vision(t_data *d);
-void	eb_print_wolf(t_data *d, double dist, double dist_screen, int i);*/
+void	eb_print_wall(t_data *d, t_colision *col, int x);
+void	eb_floor_casting(t_data *d, t_pos *pos, t_colision *col, double alpha);
+void	eb_print_wend(t_data *d, double alpha, int dist, double dist_wall);
 
-void	eb_search_wall(t_data *d, t_pos *pos, double alpha, t_colision *col);
-void	eb_vision(t_data *d);
-void	eb_print_wolf(t_data *d, t_colision *col, double dist_screen, int i);
 /*
-void	eb_search_wall(t_data *d, t_pos *pos, double alpha, t_colision *col);
-void	eb_vision(t_data *d);
-void	eb_print_wolf(t_data *d, t_colision *col, double dist_screen, int i);
+**	eb_color.c
 */
+int		color_shadow(int color, double shadow);
+int		color_norm(int red, int green, int blue);
+
 #endif /* WOLF3D_H */

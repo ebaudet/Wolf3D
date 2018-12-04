@@ -18,7 +18,6 @@ int		eb_collision(t_data *d, t_pos *pos)
 {
 	if (*d->map->map[pos->y / RA][pos->x / RA] == d->map->wall)
 	{
-		/*printf("pos(%d, %d)\n", pos->x, pos->y);*/
 		if (pos->x == ((pos->x / RA) * RA))
 			return (1);
 		else if (pos->x == (((pos->x / RA) + 1) * RA - 1))

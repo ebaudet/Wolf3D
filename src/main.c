@@ -42,8 +42,12 @@ int		main(int ac, char *av[])
 	if (ac != 2)
 		eb_perror("usage : ./wolf3d map");
 	map = eb_getdata(++av);
+	ft_putendl("premiere map");
 	ft_print_map(map->map);
+	ft_putendl("deuxieme map");
+	ft_print_map(map->next->map);
 	d.map = map;
+	ft_memset(d.save, 0, sizeof(int) * 6);
 	eb_mlx(&d);
 	return (0);
 }
