@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-void        ft_print_map(int ***map)
+void	ft_print_map(int ***map)
 {
 	int		i;
 	int		j;

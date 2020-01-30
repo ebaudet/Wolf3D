@@ -30,7 +30,8 @@ t_map	*eb_getdata(char *av[])
 	while (get_next_line(fd, &line) > 0)
 	{
 		temp = NULL;
-		temp = eb_init_t_map(temp, line);
+		if ((temp = eb_init_t_map(temp, line)) == NULL)
+			eb_perror("Error with the datas");
 		i = -1;
 		while (++i < temp->y && get_next_line(fd, &line) > 0)
 			eb_map_init(temp, line, i);
@@ -43,13 +44,27 @@ t_map	*eb_getdata(char *av[])
 	return (map);
 }
 
+int		eb_tab_size_in(char **tab, int min, int max)
+{
+	int	size;
+
+	size = 0;
+	while (tab && tab[size])
+		size++;
+	if (min <= size && size <= max)
+		return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
+}
+
 t_map	*eb_init_t_map(t_map *map, char *str)
 {
 	char	**tab;
 	int		i;
 
-	map = (t_map *)ft_memalloc(sizeof(t_map));
 	tab = ft_strsplit(str, ' ');
+	if (EXIT_FAILURE == eb_tab_size_in(tab, 6, 7))
+		return (NULL);
+	map = (t_map *)ft_memalloc(sizeof(t_map));
 	printf("sizeof('tab') = %lu\n", sizeof(tab[1]));
 	map->x = ft_atoi(tab[0]);
 	map->y = ft_atoi(tab[1]);
@@ -57,10 +72,7 @@ t_map	*eb_init_t_map(t_map *map, char *str)
 	map->wall = ft_atoi(tab[3]);
 	map->floor = ft_atoi(tab[4]);
 	map->start = ft_atoi(tab[5]);
-	if (tab[6])
-		map->end = ft_atoi(tab[6]);
-	else
-		map->end = -1;
+	map->end = (tab[6]) ? ft_atoi(tab[6]) : -1;
 	map->pos = (t_pos *)ft_memalloc(sizeof(t_pos));
 	map->map = (int ***)ft_memalloc(sizeof(int **) * (map->y + 1));
 	map->alpha = 0;
