@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
 #include <stdlib.h>
+#include "mlx.h"
 #include "wolf3d.h"
 
 void	eb_put_pixel_to_img(t_data *d, int x, int y, int color)
