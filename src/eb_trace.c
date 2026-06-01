@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "wolf3d.h"
+
+#define MINIMAP_RAYS 31
 
 void	eb_trace_line(t_data *d, t_pos a, t_pos b, int color)
 {
@@ -65,6 +68,50 @@ void	eb_trace_block(t_data *d, int x, int y)
 	}
 }
 
+static void	eb_trace_minimap_ray(t_data *d, double alpha)
+{
+	t_pos	pos;
+	t_pos	start;
+	t_pos	end;
+	double	x;
+	double	y;
+
+	x = (double)d->map->pos->x;
+	y = (double)d->map->pos->y;
+	pos.x = d->map->pos->x;
+	pos.y = d->map->pos->y;
+	while (pos.x >= 0 && pos.y >= 0 && pos.x < d->map->x * RA
+		&& pos.y < d->map->y * RA && eb_collision(d, &pos) <= 0)
+	{
+		x = x + cos(alpha);
+		y = y + sin(alpha);
+		pos.x = (int)x;
+		pos.y = (int)y;
+	}
+	eb_init_pos((d->map->pos->x * RM) / RA,
+		(d->map->pos->y * RM) / RA, &start);
+	eb_init_pos((pos.x * RM) / RA, (pos.y * RM) / RA, &end);
+	eb_trace_line(d, start, end, 0xFFFF00);
+}
+
+static void	eb_trace_minimap_vision(t_data *d)
+{
+	int		i;
+	int		screen_x;
+	double	dist_screen;
+	double	alpha;
+
+	i = 0;
+	dist_screen = (WIDTH / 2) / tan((VISION * DEG_TO_RAD) / 2);
+	while (i < MINIMAP_RAYS)
+	{
+		screen_x = -(WIDTH / 2) + ((WIDTH * i) / (MINIMAP_RAYS - 1));
+		alpha = d->map->alpha + atan(screen_x / dist_screen);
+		eb_trace_minimap_ray(d, alpha);
+		i++;
+	}
+}
+
 void	eb_trace_map(t_data *d)
 {
 	int		i;
@@ -82,4 +129,7 @@ void	eb_trace_map(t_data *d)
 		j = 0;
 		i++;
 	}
+	eb_trace_minimap_vision(d);
+	eb_put_pixel_to_img(d, (d->map->pos->x * RM) / RA,
+		(d->map->pos->y * RM) / RA, 0x000000);
 }
