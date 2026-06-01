@@ -6,3 +6,5 @@ libft/*.a
 wolf3d.dSYM
 .vscode
 libft/.obj
+mlx/*.o
+mlx/*.a
