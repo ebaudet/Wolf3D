@@ -16,6 +16,11 @@
 
 int		eb_collision(t_data *d, t_pos *pos)
 {
+	if (pos->x < 0 || pos->y < 0 || pos->x >= d->map->x * RA
+		|| pos->y >= d->map->y * RA)
+		return (5);
+	if (*d->map->map[pos->y / RA][pos->x / RA] == d->map->end)
+		return (-1);
 	if (*d->map->map[pos->y / RA][pos->x / RA] == d->map->wall)
 	{
 		if (pos->x == ((pos->x / RA) * RA))
@@ -43,7 +48,7 @@ void	eb_move_on(t_data *d)
 	alpha = d->map->alpha;
 	pos.x = d->map->pos->x + (int)(cos(alpha) * 25);
 	pos.y = d->map->pos->y + (int)(sin(alpha) * 25);
-	if (eb_collision(d, &pos) == 0)
+	if (eb_collision(d, &pos) <= 0)
 	{
 		d->map->pos->x = pos.x;
 		d->map->pos->y = pos.y;
@@ -60,7 +65,7 @@ void	eb_move_back(t_data *d)
 	alpha = d->map->alpha;
 	pos.x = d->map->pos->x - (int)(cos(alpha) * 25);
 	pos.y = d->map->pos->y - (int)(sin(alpha) * 25);
-	if (eb_collision(d, &pos) == 0)
+	if (eb_collision(d, &pos) <= 0)
 	{
 		d->map->pos->x = pos.x;
 		d->map->pos->y = pos.y;
