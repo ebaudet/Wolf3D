@@ -185,7 +185,7 @@ void	eb_mlx(t_data *d)
 	d->img = mlx_new_image(d->mlx, WIDTH, HEIGHT);
 	d->data = mlx_get_data_addr(d->img, &d->bpp, &d->size_line, &d->endian);
 
-	/*mlx_hook(d->win, 2, (1L << 0), eb_key_hook, d);*/
+	// mlx_hook(d->win, 2, (1L << 0), eb_key_hook, d);
 	mlx_mouse_hook(d->win, eb_mouse_hook, d);
 	mlx_expose_hook(d->win, eb_expose_hook, d);
 	mlx_hook(d->win, 2, 1, eb_key_press, d);

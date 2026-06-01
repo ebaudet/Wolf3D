@@ -38,10 +38,10 @@ void	eb_draw(t_data *d)
 	eb_put_pixel_to_img(d, d->map->pos->x + 1, d->map->pos->y, 0xBD33A4);
 	eb_put_pixel_to_img(d, d->map->pos->x, d->map->pos->y + 1, 0xBD33A4);
 	eb_put_pixel_to_img(d, d->map->pos->x + 1, d->map->pos->y + 1, 0xBD33A4);*/
-	/*eb_clean_map(d);*/
+	// eb_clean_map(d);
 	eb_vision(d);
 
-	/*printf("(%d, %d)\n", d->map->pos->x, d->map->pos->y);*/
+	// printf("(%d, %d)\n", d->map->pos->x, d->map->pos->y);
 	eb_put_pixel_to_img(d, (d->map->pos->x  * RM) / RA, (d->map->pos->y * RM) / RA, 0x000000);
 	eb_trace_map(d);
 

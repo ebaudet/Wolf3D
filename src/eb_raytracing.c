@@ -56,14 +56,14 @@ void	eb_vision(t_data *d)
 	eb_init_pos(d->map->pos->x, d->map->pos->y, pos);
 	/*alpha = d->map->alpha;
 	alpha = alpha - (0.002181 * 240);*/
-	/*printf("d->map->alpha : %f\n", d->map->alpha);*/
+	// printf("d->map->alpha : %f\n", d->map->alpha);
 	x = -(WIDTH / 2) - 1;
 	while (++x <= (WIDTH / 2))
 	{
 		alpha = d->map->alpha + atan(x / d->dist_screen);
-		/*printf("%f\n", alpha);*/
+		// printf("%f\n", alpha);
 		eb_search_wall(d, pos, alpha, col);
-		/*printf("eb_vision:dist %f\n", col->dist);*/
+		// printf("eb_vision:dist %f\n", col->dist);
 		col->dist = col->dist * cos(atan(x / d->dist_screen));
 		eb_print_wall(d, col, x + (WIDTH / 2) - 1);
 		eb_floor_casting(d, pos, col, alpha);
@@ -82,18 +82,18 @@ void	eb_print_wall(t_data *d, t_colision *col, int x)
 	int		ya;
 	int		yb;
 
-	/*printf("eb_print_wolf:dist %f\n", col->dist);*/
+	// printf("eb_print_wolf:dist %f\n", col->dist);
 	height = ((d->dist_screen * (double)HEIGHT) / col->dist);
 	height = height / 10;
-	/*printf("height : %d\n", height);*/
+	// printf("height : %d\n", height);
 	ya = (d->map->axis_y - (int)(height / 2));
 	ya = (ya <= 0 ? 1 : ya);
 	yb = (d->map->axis_y + (int)(height / 2));
 	yb = (yb >= HEIGHT ? HEIGHT : yb);
-	/*printf("color = %f \t", (dist / MAXLEN));*/
+	// printf("color = %f \t", (dist / MAXLEN));
 	eb_init_pos(x, ya, &a);
 	eb_init_pos(x, yb, &b);
-	/*eb_trace_line(d, a, b, 0xFFFFFF * ((dist * 2) / MAXLEN));*/
+	// eb_trace_line(d, a, b, 0xFFFFFF * ((col->dist * 2) / MAXLEN));
 
 	if (col->face == 1)
 		eb_trace_line(d, a, b, color_shadow(0xFF0000, 500 / col->dist));
