@@ -9,6 +9,8 @@ The project was built in the 42 school style and includes local copies of:
 - `libft`: custom C utility library.
 - `mlx`: MiniLibX graphics library.
 
+![Example screenshot of the rendered view](wolf3d-screenshot.png)
+
 ## Features
 
 - Real-time raycasting renderer.
@@ -19,8 +21,6 @@ The project was built in the 42 school style and includes local copies of:
 - Keyboard movement and rotation.
 - Mouse editing on the minimap: left-click toggles floor/wall cells inside the
   map borders.
-
-![Example screenshot of the rendered view](wolf3d-screenshot.png)
 
 ## Repository Layout
 
