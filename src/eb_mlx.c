@@ -64,34 +64,45 @@ int		eb_mouse_hook(int button, int x, int y, t_data *d)
 
 int		eb_key_press(int keycode, t_data *d)
 {
-	if (keycode == KEY_ESC || keycode == 113)
+	if (keycode == KEY_ESC || keycode == KEY_MAC_ESC
+		|| keycode == 113 || keycode == KEY_MAC_Q)
 		exit(0);
-	if (keycode == KEY_UP || keycode == 119)
+	if (keycode == KEY_UP || keycode == KEY_MAC_UP
+		|| keycode == 119 || keycode == KEY_MAC_W)
 		d->save[0] = 1;
-	if (keycode == KEY_DOWN || keycode == 115)
+	if (keycode == KEY_DOWN || keycode == KEY_MAC_DOWN
+		|| keycode == 115 || keycode == KEY_MAC_S)
 		d->save[1] = 1;
-	if (keycode == KEY_LEFT || keycode == 97)
+	if (keycode == KEY_LEFT || keycode == KEY_MAC_LEFT
+		|| keycode == 97 || keycode == KEY_MAC_A)
 		d->save[2] = 1;
-	if (keycode == KEY_RIGHT || keycode == 100)
+	if (keycode == KEY_RIGHT || keycode == KEY_MAC_RIGHT
+		|| keycode == 100 || keycode == KEY_MAC_D)
 		d->save[3] = 1;
-	if (keycode == 104)
+	if (keycode == 104 || keycode == KEY_MAC_H)
 		d->save[4] = (d->save[4] == 0 ? 1 : 0);
-	if (keycode == KEY_RUN)
+	if (keycode == KEY_RUN || keycode == KEY_MAC_LSHIFT
+		|| keycode == KEY_MAC_RSHIFT)
 		d->save[5] = 1;
 	return (0);
 }
 
 int		eb_key_release(int keycode, t_data *d)
 {
-	if (keycode == KEY_UP || keycode == 119)
+	if (keycode == KEY_UP || keycode == KEY_MAC_UP
+		|| keycode == 119 || keycode == KEY_MAC_W)
 		d->save[0] = 0;
-	if (keycode == KEY_DOWN || keycode == 115)
+	if (keycode == KEY_DOWN || keycode == KEY_MAC_DOWN
+		|| keycode == 115 || keycode == KEY_MAC_S)
 		d->save[1] = 0;
-	if (keycode == KEY_LEFT || keycode == 97)
+	if (keycode == KEY_LEFT || keycode == KEY_MAC_LEFT
+		|| keycode == 97 || keycode == KEY_MAC_A)
 		d->save[2] = 0;
-	if (keycode == KEY_RIGHT || keycode == 100)
+	if (keycode == KEY_RIGHT || keycode == KEY_MAC_RIGHT
+		|| keycode == 100 || keycode == KEY_MAC_D)
 		d->save[3] = 0;
-	if (keycode == KEY_RUN)
+	if (keycode == KEY_RUN || keycode == KEY_MAC_LSHIFT
+		|| keycode == KEY_MAC_RSHIFT)
 		d->save[5] = 0;
 	return (0);
 }
